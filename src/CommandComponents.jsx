@@ -21,6 +21,81 @@ const MetadataFooter = ({ status = "ACTIVE" }) => (
 );
 
 // --- 1. ABOUT: SYSTEM ANALYSIS ---
+
+
+export const HelpMenu = () => {
+  const categories = [
+    {
+      title: "IDENT_DISCOVERY",
+      commands: [
+        { name: "about", desc: "Personnel identity & summary" },
+        { name: "skills", desc: "Technical capabilities matrix" },
+        { name: "projects", desc: "View deployed repositories" },
+        { name: "education", desc: "Academic history" },
+        { name: "contact", desc: "Establish communication link" },
+      ]
+    },
+    {
+      title: "SYSTEM_UTILITIES",
+      commands: [
+        { name: "neofetch", desc: "Display system distribution info" },
+        { name: "whoami", desc: "Display current user privilege" },
+        { name: "date", desc: "Sync with system clock" },
+        { name: "clear", desc: "Wipe terminal buffer" },
+        { name: "sudo", desc: "Request root access" },
+      ]
+    },
+    {
+      title: "SIMULATIONS",
+      commands: [
+        { name: "snake", desc: "Launch retro arcade module (not for mobile phones)" },
+        { name: "ttt", desc: "Launch TicTacToe game" },
+      ]
+    }
+  ];
+
+  return (
+    <div className="py-2 font-mono text-[11px] md:text-xs max-w-2xl">
+      <p className="text-zinc-500 italic mb-4">
+        {`>>`} PROTOCOL_HELP_v3.0: Available commands listed by sector...
+      </p>
+
+      <div className="space-y-6">
+        {categories.map((cat, i) => (
+          <div key={i} className="space-y-2">
+            {/* Category Header */}
+            <div className="flex items-center gap-2">
+              <span className="text-blue-500 font-bold tracking-[0.2em] uppercase">
+                {cat.title}
+              </span>
+              <div className="h-[1px] flex-1 bg-zinc-900" />
+            </div>
+
+            {/* Command Grid */}
+            <div className="grid grid-cols-[100px_1fr] gap-x-4 gap-y-1 pl-2">
+              {cat.commands.map((cmd, j) => (
+                <React.Fragment key={j}>
+                  <span className="text-zinc-300 font-bold hover:text-blue-400 transition-colors cursor-help">
+                    {cmd.name}
+                  </span>
+                  <span className="text-zinc-500">
+                    — {cmd.desc}
+                  </span>
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Hint for the 'ls -a' users */}
+      {/* <div className="mt-6 p-2 border border-dashed border-zinc-800 text-[10px] text-zinc-600">
+        <span className="text-blue-900 font-bold uppercase">Tip:</span> Hidden files may contain decryption keys. Use 'ls -a' to explore restricted sectors.
+      </div> */}
+    </div>
+  );
+};
+
 export const About = () => {
   const coreStats = [
     { label: "INSTITUTION", value: "MANIT_BHOPAL", status: "B.TECH_CSE" },
@@ -164,30 +239,109 @@ export const Skills = () => {
 };
 
 // --- 3. PROJECTS: REPOSITORY GRID ---
+import { ExternalLink, Layers } from 'lucide-react';
+
 export const Projects = () => {
   const works = [
-    { name: "Terminal_v1", hash: "882A", tech: ["React", "Motion"] },
-    { name: "Nexus_App", hash: "F21C", tech: ["Node", "Redis"] },
-    { name: "Neural_Link", hash: "A491", tech: ["Python", "TF"] },
-    { name: "Grid_OS", hash: "C110", tech: ["Three.js", "GLSL"] }
+    { 
+      name: "Typing_Mania", 
+      hash: "T-MANIA", 
+      tech: ["JavaScript", "Socket.io", "Next.js", "Tailwind CSS"],
+      desc: "A high-speed competitive typing engine. Features real-time multiplayer synchronization, allowing users to compete in live performance benchmarks.",
+      link: "https://typing-mania-one.vercel.app/",
+      github: "https://github.com/Varun24-s/typing-mania",
+      status: "STABLE"
+    },
+    { 
+      name: "E-Summit '26", 
+      hash: "MANIT-ES", 
+      tech: ["React", "Tailwind", "Framer Motion"],
+      desc: "Centralized operational hub for MANIT's flagship entrepreneurship event. Engineered for high-traffic scalability with smooth interactive elements.",
+      link: "https://esummit.ecellnitb.in/",
+      github: "https://github.com/Naitik002/E-Summit26",
+      status: "DEPLOYED"
+    }
   ];
+
   return (
-    <div className="py-2">
-      <SectionHeader icon={Folder} title="Project_Repositories" subtitle="FETCH_LIMIT: 4" />
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+    <div className="py-4 font-mono">
+      <div className="flex items-center gap-3 mb-6 border-b border-zinc-900 pb-4">
+        <Folder className="text-blue-500" size={20} />
+        <div>
+          <h2 className="text-white font-black text-xl tracking-tighter uppercase">Project_Repositories</h2>
+          <p className="text-zinc-600 text-[10px] tracking-widest">USER://VARUN/MODULES/PRODUCTION</p>
+        </div>
+      </div>
+      
+      <div className="space-y-8">
         {works.map((p, i) => (
-          <div key={i} className="group relative border border-zinc-900 p-3 hover:bg-white/5 transition-all cursor-pointer">
-            <div className="text-zinc-700 font-mono text-[8px] mb-2">REV_{p.hash}</div>
-            <h4 className="text-white font-bold text-xs uppercase tracking-tighter mb-2 group-hover:text-blue-400 transition-colors">
-              {p.name}
-            </h4>
-            <div className="flex flex-wrap gap-1">
-              {p.tech.map(t => <span key={t} className="text-[8px] text-zinc-600">#{t}</span>)}
+          <div key={i} className="relative group border-l-2 border-zinc-900 pl-6 py-2 hover:border-blue-500 transition-all duration-300">
+            {/* Background Accent */}
+            <div className="absolute left-0 top-0 h-full w-0 group-hover:w-full bg-blue-500/[0.02] transition-all duration-500 pointer-events-none" />
+
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+              
+              {/* Left Side: Info */}
+              <div className="flex-1 space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="text-zinc-700 text-[10px] font-bold">REV_{p.hash}</span>
+                  <span className="h-[1px] w-8 bg-zinc-900" />
+                  <span className="text-blue-500 text-[10px] font-black tracking-widest uppercase italic">{p.status}</span>
+                </div>
+
+                <h3 className="text-white text-2xl font-black uppercase tracking-tighter group-hover:text-blue-400 transition-colors">
+                  {p.name.replace('_', ' ')}
+                </h3>
+
+                <p className="text-zinc-400 text-xs md:text-sm leading-relaxed max-w-2xl">
+                  {p.desc}
+                </p>
+
+                <div className="flex flex-wrap gap-3 pt-2">
+                  {p.tech.map(t => (
+                    <div key={t} className="flex items-center gap-1.5 text-[10px] text-zinc-500">
+                      <div className="w-1 h-1 bg-blue-500 rounded-full" />
+                      {t}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Side: Actions */}
+              <div className="flex flex-row lg:flex-col gap-3 shrink-0">
+                <a 
+                  href={p.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 px-4 py-2 bg-white text-black text-[11px] font-black uppercase hover:bg-blue-500 hover:text-white transition-all group/btn"
+                >
+                  Live_Demo <ExternalLink size={14} className="group-hover/btn:translate-x-0.5 transition-transform" />
+                </a>
+                <a 
+                  href={p.github} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 px-4 py-2 border border-zinc-800 text-zinc-400 text-[11px] font-black uppercase hover:border-white hover:text-white transition-all"
+                >
+                  Source_Code <Github size={14} />
+                </a>
+              </div>
+
             </div>
           </div>
         ))}
       </div>
-      <MetadataFooter />
+
+      {/* Footer System Info */}
+      <div className="mt-12 flex justify-between items-center pt-4 border-t border-zinc-900">
+        <div className="flex gap-6 text-[9px] text-zinc-700 font-bold uppercase tracking-widest">
+          <span className="flex items-center gap-1"><Cpu size={10} /> Sync: Optimized</span>
+          <span className="flex items-center gap-1"><Layers size={10} /> Stack: Full</span>
+        </div>
+        <div className="text-[9px] text-zinc-800 font-bold italic">
+          [END_OF_LIST]
+        </div>
+      </div>
     </div>
   );
 };
@@ -197,87 +351,92 @@ export const Projects = () => {
 
 import {ChevronRight, Terminal, Binary } from 'lucide-react';
 
-export const Education = () => {
-  const manitBlock = `
-  ███╗   ███╗ █████╗ ███╗   ██╗██╗████████╗
-  ████╗ ████║██╔══██╗████╗  ██║██║╚══██╔══╝
-  ██╔████╔██║███████║██╔██╗ ██║██║   ██║   
-  ██║╚██╔╝██║██╔══██║██║╚██╗██║██║   ██║   
-  ██║ ╚═╝ ██║██║  ██║██║ ╚████║██║   ██║   
-  ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝   
-  `;
 
+export const Education = () => {
   const edu = [
     { 
-      school: "MAULANA AZAD NATIONAL INSTITUTE OF TECHNOLOGY", 
+      school: "MAULANA AZAD NATIONAL INSTITUTE OF TECHNOLOGY (MANIT), BHOPAL", 
       degree: "B.Tech in Computer Science & Engineering", 
-      date: "2024-28", 
+      date: "2024 - 2028",
+      status: "CURRENTLY_ENROLLED"
     },
   ];
 
   return (
-    <div className="py-8 bg-black font-mono overflow-hidden">
-      {/* Main Attraction: White ASCII Header */}
-      <div className="mb-8 group">
-        <pre className="text-white text-[5px] md:text-[9px] leading-[1.1] font-bold select-none animate-flicker">
-          {manitBlock}
-        </pre>
-        <div className="flex items-center gap-2 mt-2">
-          <div className="h-[1px] w-12 bg-blue-600"></div>
-          <span className="text-blue-500 text-[10px] tracking-[0.3em] font-black uppercase">
-            Institutional_Archive_07
+    <div className="py-4 bg-black font-mono overflow-hidden">
+      {/* Big Bold Header Section */}
+      <div className="mb-10 relative">
+        <div className="absolute -top-4 -left-2 opacity-10 blur-sm select-none pointer-events-none">
+           <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-white">MANIT</h1>
+        </div>
+        
+        <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-white relative z-10">
+          MANIT<span className="text-blue-600">.</span>
+        </h1>
+        
+        <div className="flex items-center gap-2 mt-1">
+          <div className="h-[2px] w-10 bg-blue-600"></div>
+          <span className="text-zinc-500 text-[10px] tracking-[0.4em] font-bold uppercase">
+            National_Institute_Archive
           </span>
         </div>
       </div>
 
       {/* Content Section */}
-      <div className="grid grid-cols-1 gap-6 relative">
-        {/* Decorative Vertical Background Text */}
-        <div className="absolute -right-4 top-0 text-[60px] font-black opacity-[0.02] text-white select-none pointer-events-none rotate-90 origin-top-right">
-          CSE_MANIT
+      <div className="space-y-8 relative">
+        {/* Subtle Background Watermark */}
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 text-[80px] font-black opacity-[0.03] text-white select-none pointer-events-none -rotate-90">
+          CSE_CORE
         </div>
 
         {edu.map((item, i) => (
-          <div key={i} className="group relative">
-            <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-zinc-900 pb-4 group-hover:border-blue-500/50 transition-colors">
-              
-              <div className="space-y-2">
-                <div className="flex items-center gap-3">
-                  <h3 className="text-white text-sm font-black uppercase tracking-tighter group-hover:text-blue-400 transition-colors">
-                    {item.degree}
-                  </h3>
-                </div>
-                
-                <div className="flex flex-col space-y-1 pl-8">
-                  <p className="text-zinc-500 text-[10px] flex items-center gap-2">
-                    <Terminal size={12} className="text-blue-600" />
+          <div key={i} className="group border-l-2 border-zinc-900 pl-6 py-2 hover:border-blue-600 transition-all duration-500">
+            <div className="space-y-4">
+              {/* Specification Label */}
+              <div className="flex items-center gap-2 text-blue-600">
+                <ShieldCheck size={14} />
+                <span className="text-[10px] font-black tracking-widest uppercase">Verified_Enrollment</span>
+              </div>
+
+              {/* Degree Title */}
+              <div className="space-y-1">
+                <h3 className="text-white text-xl md:text-3xl font-black uppercase tracking-tight leading-tight group-hover:text-blue-400 transition-colors">
+                  {item.degree}
+                </h3>
+                <div className="flex items-center gap-2 text-zinc-500">
+                  <Terminal size={12} className="shrink-0" />
+                  <p className="text-[11px] md:text-xs font-bold uppercase tracking-wide">
                     {item.school}
                   </p>
-                  
                 </div>
               </div>
 
-              <div className="mt-4 md:mt-0 text-right">
-                <div className="inline-block px-3 py-1 bg-zinc-900 border border-zinc-800 text-blue-500 text-[10px] font-black italic">
+              {/* Date & Status Meta */}
+              <div className="flex items-center gap-4">
+                <div className="px-3 py-1 bg-white text-black text-[10px] font-black uppercase tracking-tighter">
                   {item.date}
                 </div>
+                <div className="flex items-center gap-2 text-green-500 text-[9px] font-bold">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                  </span>
+                  {item.status}
+                </div>
               </div>
-
             </div>
-            
-              </div>
+          </div>
         ))}
       </div>
 
       {/* System Metadata Footer */}
-      <div className="mt-8 flex justify-between items-center text-[9px] text-zinc-800 font-bold pt-4">
-        <div className="flex gap-4">
-          <span>LOC: BHOPAL_IN</span>
-          <span>NET: CSE_LAN_INTERNAL</span>
+      <div className="mt-12 flex justify-between items-end border-t border-zinc-900 pt-4">
+        <div className="space-y-1">
+          <p className="text-[9px] text-zinc-700 font-bold uppercase tracking-widest">Database: Student_Ledger_0722</p>
+          <p className="text-[9px] text-zinc-800 font-bold uppercase tracking-widest">Location: Bhopal, Madhya Pradesh</p>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 bg-green-900 rounded-full animate-pulse" />
-          SYSTEM_STABLE
+        <div className="text-right italic font-black text-2xl text-zinc-900 select-none">
+          2026_LOG
         </div>
       </div>
     </div>

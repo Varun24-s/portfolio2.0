@@ -1,114 +1,106 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const BootScreen = ({ onComplete, theme = 'dark' }) => {
-  const [logs, setLogs] = useState([]);
-  const [progress, setProgress] = useState(0);
-
-  const fullLogs = [
-    "VARUN_OS(v3.1.0) - BOOT_SEQUENCE_INITIATED",
-    "PROCESSOR: MANIT_CSE_CORE_2027",
-    "MEM_CHECK: 16384MB....................... [PASSED]",
-    "V_FILESYSTEM: /root/varun-sharma/portfolio",
-    "PROTOCOL: ESTABLISHING_ENCRYPTED_TCP_LINK",
-    "DRIVERS: C++, REACT, NODE_JS, MERN_STACK",
-    "SECURITY: RSA_4096_ENCRYPTION_ACTIVE",
-    "STATUS: SYSTEM_GO_FOR_GUI_LAUNCH",
-  ];
+const BootScreen = ({ onComplete }) => {
+  const [percent, setPercent] = useState(0);
+  const [phase, setPhase] = useState("INITIALIZING");
 
   useEffect(() => {
-    let logIndex = 0;
-    const logInterval = setInterval(() => {
-      if (logIndex < fullLogs.length) {
-        setLogs(prev => [...prev, {
-          text: fullLogs[logIndex],
-          id: Math.random().toString(16).slice(2, 6).toUpperCase()
-        }]);
-        logIndex++;
-      } else {
-        clearInterval(logInterval);
-      }
-    }, 250);
-
-    // Progress bar simulation
-    const progInterval = setInterval(() => {
-      setProgress(prev => {
+    const timer = setInterval(() => {
+      setPercent((prev) => {
         if (prev >= 100) {
-          clearInterval(progInterval);
-          setTimeout(onComplete, 800);
+          clearInterval(timer);
+          setTimeout(onComplete, 1000);
           return 100;
         }
-        return prev + Math.floor(Math.random() * 15) + 5;
+        const next = prev + Math.floor(Math.random() * 8) + 2;
+        return next > 100 ? 100 : next;
       });
-    }, 400);
+    }, 150);
 
-    return () => {
-      clearInterval(logInterval);
-      clearInterval(progInterval);
-    };
+    return () => clearInterval(timer);
   }, [onComplete]);
 
-  const isDark = theme === 'dark';
+  // Sync phase text to percentage
+  useEffect(() => {
+    if (percent > 80) setPhase("GUI_RENDER_READY");
+    else if (percent > 50) setPhase("V_FILESYSTEM_MOUNTED");
+    else if (percent > 20) setPhase("DECRYPTING_BIO_CORE");
+  }, [percent]);
 
   return (
-    <div className={`fixed inset-0 z-[100] flex flex-col justify-between p-6 md:p-12 font-mono transition-colors duration-500
-      ${isDark ? 'bg-black text-blue-500' : 'bg-zinc-50 text-zinc-800'}`}>
+    <div className="fixed inset-0 bg-black z-[100] flex flex-col items-center justify-center font-mono text-blue-500 overflow-hidden">
       
-      {/* Top Section: System Info */}
-      <div className="space-y-1 overflow-hidden">
-        <div className="flex justify-between border-b border-current pb-2 mb-4 opacity-50">
-          <span>VARUN_SH_BIOS_V4.2</span>
-          <span className="hidden md:block">REL: FEB_2026</span>
-        </div>
+      {/* Background Grid Decoration */}
+      
+      {/* Moving Scanner Line */}
+      <motion.div 
+        animate={{ y: [-100, 1000] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+        className="absolute top-0 w-full h-[2px] bg-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.8)] z-10 opacity-30"
+      />
 
-        {logs.map((log, index) => (
+      {/* Central Visual Element */}
+      <div className="relative flex flex-col items-center gap-8 w-full max-w-xl p-6">
+        
+        {/* The "Brain" Circle */}
+        <div className="relative h-48 w-48 flex items-center justify-center">
           <motion.div 
-            initial={{ x: -10, opacity: 0 }} 
-            animate={{ x: 0, opacity: 1 }} 
-            key={index}
-            className="flex items-center gap-4 text-[10px] md:text-xs"
-          >
-            <span className="opacity-30">0x{log.id}</span>
-            <span className={isDark ? 'text-zinc-300' : 'text-zinc-600'}>{log.text}</span>
-            {index === logs.length - 1 && (
-              <motion.span 
-                animate={{ opacity: [0, 1] }} 
-                transition={{ repeat: Infinity, duration: 0.4 }}
-                className="inline-block w-2 h-4 bg-current"
-              />
-            )}
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Bottom Section: Progress & Branding */}
-      <div className="space-y-4">
-        <div className="flex flex-col gap-2">
-          <div className="flex justify-between text-[10px] uppercase tracking-widest font-bold">
-            <span>Loading_Environment</span>
-            <span>{Math.min(progress, 100)}%</span>
-          </div>
-          <div className={`h-1 w-full relative ${isDark ? 'bg-zinc-900' : 'bg-zinc-200'}`}>
-            <motion.div 
-              className="absolute top-0 left-0 h-full bg-blue-600 shadow-[0_0_10px_rgba(37,99,235,0.5)]"
-              animate={{ width: `${Math.min(progress, 100)}%` }}
-            />
+            animate={{ rotate: 360 }}
+            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+            className="absolute inset-0 border-2 border-dashed border-blue-900 rounded-full"
+          />
+          <motion.div 
+            animate={{ rotate: -360 }}
+            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+            className="absolute inset-4 border border-blue-700/50 rounded-full border-t-blue-400"
+          />
+          <div className="flex flex-col items-center">
+            <span className="text-4xl font-black tracking-tighter">{percent}%</span>
+            <span className="text-[8px] opacity-50 tracking-[0.3em]">STABILITY: HIGH</span>
           </div>
         </div>
 
-        <div className="flex justify-between items-end">
-          <div className="opacity-40 text-[9px]">
-            © 2026 VARUN_SHARMA. ALL_SYSTEMS_OPERATIONAL.<br/>
-            BHOPAL_SEC_NODE_79
+        {/* Data Readout Panels */}
+        <div className="w-full grid grid-cols-2 gap-4 text-[10px]">
+          <div className="border border-blue-900/50 p-2 bg-blue-500/5">
+            <p className="text-blue-400 mb-1 border-b border-blue-900/50 pb-1">KERNEL_METRICS</p>
+            <p>LATENCY: 0.00{Math.floor(Math.random()*9)}ms</p>
+            <p>NODE: BHOPAL_79</p>
+            <p>OS: VARUN_V3.1</p>
           </div>
-          <div className="text-right italic font-black text-xl md:text-3xl tracking-tighter opacity-20 select-none">
-            MANIT_CSE
+          <div className="border border-blue-900/50 p-2 bg-blue-500/5">
+            <p className="text-blue-400 mb-1 border-b border-blue-900/50 pb-1">STATUS_LOG</p>
+            <AnimatePresence mode="wait">
+              <motion.p 
+                key={phase}
+                initial={{ opacity: 0, x: 5 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="text-white"
+              >
+                {phase}...
+              </motion.p>
+            </AnimatePresence>
+            <p className="opacity-40">AUTO_RECOVERY: ON</p>
+          </div>
+        </div>
+
+        {/* Branding Footer */}
+        <div className="flex flex-col items-center gap-1">
+          <div className="flex gap-1">
+             {[...Array(20)].map((_, i) => (
+               <div key={i} className={`h-1 w-2 ${i < percent/5 ? 'bg-blue-500 shadow-[0_0_5px_rgba(59,130,246,1)]' : 'bg-blue-900/30'}`} />
+             ))}
           </div>
         </div>
       </div>
 
-      {/* Retro Noise Overlay */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.015] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      {/* Decorative Glitch Text in corners */}
+      <div className="absolute top-10 left-10 opacity-20 text-[8px] rotate-90">0xDEADBEEF</div>
+      <div className="absolute bottom-10 right-10 opacity-20 text-[8px]">CORE_TEMP: 32°C</div>
+
+      {/* Grainy Noise Overlay */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
     </div>
   );
 };

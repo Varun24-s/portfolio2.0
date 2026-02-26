@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTerminal } from './useTerminal';
+import { Banner } from './useTerminal';
 
 const Terminal = () => {
   const [input, setInput] = useState('');
@@ -32,7 +33,7 @@ const Terminal = () => {
 
   return (
     // 1. Added 'flex flex-col' to make the container manage its children's height
-    <div className={`w-full max-w-5xl h-[70vh] flex flex-col bg-black border rounded-lg overflow-hidden transition-all duration-500 shadow-2xl font-mono ${
+    <div className={`w-full max-w-[100vw] h-[80vh] flex flex-col bg-black border rounded-lg overflow-hidden transition-all duration-500 shadow-2xl font-mono ${
       isRoot ? 'border-red-900 shadow-red-900/20' : 'border-zinc-800'
     }`}>
       
@@ -46,6 +47,15 @@ const Terminal = () => {
         <span className="text-zinc-600 text-[10px] uppercase tracking-widest font-bold">
           {isRoot ? 'ROOT@SESSION' : 'GUEST@PORTFOLIO'}
         </span>
+      </div>
+
+      <div className="px-4 py-6 border-b border-zinc-800 flex flex-col items-start gap-1">
+        <div className="shrink-0">
+          <Banner />
+        </div>  
+        <div className="text-zinc-500 text-sm italic">
+            TYPE "help" TO VIEW COMMANDS. 
+        </div>
       </div>
 
       {/* Terminal Content - Added 'flex-1' and 'min-h-0' */}
@@ -63,7 +73,7 @@ const Terminal = () => {
             {line.label === 'user' && (
               <div className="flex gap-2 mb-1 font-bold">
                 <span className={isRoot ? "text-red-500" : "text-green-500"}>➜</span>
-                <span className="text-zinc-300 italic">~ {line.content}</span>
+                <span className="text-zinc-300 italic">$ {line.content}</span>
               </div>
             )}
             

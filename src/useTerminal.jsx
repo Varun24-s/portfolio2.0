@@ -1,29 +1,49 @@
 import React, { useState } from 'react';
-import { About, Education, Projects, Contact, Skills } from './CommandComponents';
+import { About, Education, Projects, Contact, Skills, HelpMenu } from './CommandComponents';
 import { SnakeGame } from './SnakeGame';
 import { TicTacToe } from './TicTacToe';
 import { Smile } from 'lucide-react';
 
 export const Banner = () => (
-  <pre className="text-white text-[4px] md:text-[9px] mb-6 leading-[1.1] font-bold overflow-x-hidden select-none">
+  <pre className="
+    text-white 
+    text-[5px]          /* Base size for ultra-small screens */
+    xs:text-[6px]       /* Small shift */
+    md:text-[9px]       /* Desktop size */
+    leading-none 
+    mb-6 
+    font-mono           /* Forces monospace */
+    font-bold 
+    whitespace-pre      /* Prevents line breaks */
+    overflow-visible    /* Ensures it doesn't clip if scaling */
+    select-none 
+    flex justify-center /* Centers the art if it's smaller than the container */
+">
     {`
-    ██╗   ██╗ █████╗ ██████╗ ██╗   ██╗███╗   ██╗    ███████╗██╗  ██╗ █████╗ ██████╗ ███╗   ███╗ █████╗ 
-    ██║   ██║██╔══██╗██╔══██╗██║   ██║████╗  ██║    ██╔════╝██║  ██║██╔══██╗██╔══██╗████╗ ████║██╔══██╗
-    ██║   ██║███████║██████╔╝██║   ██║██╔██╗ ██║    ███████╗███████║███████║██████╔╝██╔████╔██║███████║
-    ╚██╗ ██╔╝██╔══██║██╔══██╗██║   ██║██║╚██╗██║    ╚════██║██╔══██║██╔══██║██╔══██╗██║╚██╔╝██║██╔══██║
-     ╚████╔╝ ██║  ██║██║  ██║╚██████╔╝██║ ╚████║    ███████║██║  ██║██║  ██║██║  ██║██║ ╚═╝ ██║██║  ██║
-      ╚═══╝  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝    ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ 
-    `}
+██╗   ██╗ █████╗ ██████╗ ██╗   ██╗███╗   ██╗    ███████╗██╗  ██╗ █████╗ ██████╗ ███╗   ███╗ █████╗ 
+██║   ██║██╔══██╗██╔══██╗██║   ██║████╗  ██║    ██╔════╝██║  ██║██╔══██╗██╔══██╗████╗ ████║██╔══██╗
+██║   ██║███████║██████╔╝██║   ██║██╔██╗ ██║    ███████╗███████║███████║██████╔╝██╔████╔██║███████║
+╚██╗ ██╔╝██╔══██║██╔══██╗██║   ██║██║╚██╗██║    ╚════██║██╔══██║██╔══██║██╔══██╗██║╚██╔╝██║██╔══██║
+ ╚████╔╝ ██║  ██║██║  ██║╚██████╔╝██║ ╚████║    ███████║██║  ██║██║  ██║██║  ██║██║ ╚═╝ ██║██║  ██║
+  ╚═══╝  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝    ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ 
+    `.trim()}
   </pre>
 );
 
 export const useTerminal = () => {
-  const [history, setHistory] = useState([
-    { label: 'component', content: <Banner /> },
-    { label: 'system', content: 'SYSTEM READY. TYPE "HELP" TO VIEW COMMANDS.' }
-  ]);
+  const [history, setHistory] = useState([]);
   const [isRoot, setIsRoot] = useState(false);
   const [isWaitingForPassword, setIsWaitingForPassword] = useState(false);
+
+  const getDeviceName = () => {
+  const ua = navigator.userAgent;
+  if (ua.includes("Windows")) return "Windows User";
+  if (ua.includes("Macintosh")) return "macOS User";
+  if (ua.includes("Linux")) return "Linux User";
+  if (ua.includes("Android")) return "Android Mobile";
+  if (ua.includes("iPhone")) return "iPhone User";
+  return "Unknown Lifeform";
+};
 
   const executeCommand = (command) => {
     const cmd = command.toLowerCase().trim();
@@ -46,7 +66,10 @@ export const useTerminal = () => {
 
     switch (cmd) {
       case 'help':
-        setHistory(prev => [...prev, { label: 'system', content: 'Commands: about, projects, education, contact, clear, (and in case you are bored 😁) snake, tictactoe(ttt). (There are secrets hidden in the shell...)' }]);
+        setHistory(prev => [...prev, {
+          label: 'component',
+          content: <HelpMenu />
+        }]);
         break;
 
       // --- CREATIVE HIDDEN COMMANDS ---
@@ -64,18 +87,21 @@ export const useTerminal = () => {
         break;
 
       case 'whoami':
-        setHistory(prev => [...prev, { label: 'system', content: isRoot ? 'root (The Architect)' : 'guest_user_v1' }]);
-        break;
+  const device = getDeviceName();
+  const sessionId = Math.random().toString(16).slice(2, 8).toUpperCase();
+  
+  setHistory(prev => [...prev, { 
+    label: 'system', 
+    content: isRoot 
+      ? `USER: root (The Architect)\nHOST: ${device}\nSTATUS: SESSION_ACTIVE [${sessionId}]` 
+      : `USER: guest_user_v1\nHOST: ${device}\nPRIVILEGE: LIMITED_ACCESS`
+  }]);
+  break;
 
       case 'neofetch':
         setHistory(prev => [...prev, { label: 'system', content: `OS: TerminalOS v3.0\nKernel: React 18.2\nUptime: 4 mins\nShell: zsh\nResolution: ${window.innerWidth}x${window.innerHeight}` }]);
         break;
 
-      case 'matrix':
-        // Dispatches a global event for your MatrixRain component to listen to
-        window.dispatchEvent(new Event('toggle-matrix'));
-        setHistory(prev => [...prev, { label: 'system', content: 'Reality simulation initiated.' }]);
-        break;
 
       case 'date':
         setHistory(prev => [...prev, { label: 'system', content: new Date().toString() }]);
