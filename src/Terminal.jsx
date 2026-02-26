@@ -50,9 +50,22 @@ const Terminal = () => {
       </div>
 
       <div className="px-4 py-6 border-b border-zinc-800 flex flex-col items-start gap-1">
-        <div className="shrink-0">
-          <Banner />
-        </div>  
+        <div className="shrink-0 mb-6">
+  {/* 1. MOBILE HEADER: Visible on small screens, hidden on md (768px) and up */}
+  <div className="block md:hidden border-b border-zinc-900 pb-4">
+    <h1 className="text-3xl font-black tracking-tighter text-white">
+      VARUN<span className="text-blue-600 ml-3">SHARMA</span>
+    </h1>
+    <p className="text-zinc-500 text-[10px] tracking-[0.3em] font-bold uppercase mt-1">
+      Terminal_Session_v3.1
+    </p>
+  </div>
+
+  {/* 2. DESKTOP BANNER: Hidden on mobile, visible on md and up */}
+  <div className="hidden md:block">
+    <Banner />
+  </div>
+</div>
         <div className="text-zinc-500 text-sm italic">
             TYPE "help" TO VIEW COMMANDS. 
         </div>
