@@ -253,6 +253,15 @@ export const Projects = () => {
       status: "STABLE"
     },
     { 
+      name: "Episteme", 
+      hash: "EPI-LOG", 
+      tech: ["Next.js", "Supabase", "Clerk", "Tailwind"],
+      desc: "A minimalist, editorial-first blogging platform. Features a production-grade sharing engine, secure user authentication, and real-time database management.",
+      link: "https://epistemeblogg.netlify.app", 
+      github: "https://github.com/Varun24-s/episteme", 
+      status: "LIVE"
+    },
+    { 
       name: "E-Summit '26", 
       hash: "MANIT-ES", 
       tech: ["React", "Tailwind", "Framer Motion"],
