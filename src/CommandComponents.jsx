@@ -244,6 +244,15 @@ import { ExternalLink, Layers } from 'lucide-react';
 export const Projects = () => {
   const works = [
     { 
+      name: "TimePress", 
+      hash: "T-PRESS", 
+      tech: ["JavaScript",  "Next.js", "Tailwind CSS", "OpenRouter AI", "LLM Integration"],
+      desc: "The TimePress is an AI-powered newspaper engine that synthesizes Wikipedia data into immersive, era-appropriate digital editions. It features a custom streaming UI that transforms live LLM output into structured, multi-column journalistic layouts.",
+      link: "https://timepress-mauve.vercel.app/",
+      github: "https://github.com/Varun24-s/Timepress",
+      status: "STABLE"
+    },
+    { 
       name: "Typing_Mania", 
       hash: "T-MANIA", 
       tech: ["JavaScript", "Socket.io", "Next.js", "Tailwind CSS"],
