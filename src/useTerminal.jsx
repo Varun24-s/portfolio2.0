@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { About, Education, Projects, Contact, Skills, HelpMenu } from './CommandComponents';
+import { About, Education, Projects, Contact, Skills, HelpMenu, DownloadCV } from './CommandComponents';
 import { SnakeGame } from './SnakeGame';
 import { TicTacToe } from './TicTacToe';
 import { Smile } from 'lucide-react';
@@ -123,6 +123,11 @@ export const useTerminal = () => {
 
       case 'skills':
         setHistory(prev => [...prev, { label: 'component', content: <Skills /> }]);
+        break;
+
+      case 'download':
+      case 'cv':
+        setHistory(prev => [...prev, { label: 'component', content: <DownloadCV /> }]);
         break;
 
       case 'snake':

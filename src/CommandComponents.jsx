@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Folder, Globe, Github, Mail, MapPin, Linkedin, GraduationCap, Calendar, Cpu, Code2, Database, Terminal as TerminalIcon, ShieldCheck, Zap, Phone, Instagram } from 'lucide-react';
+import { Folder, Globe, Github, Mail, MapPin, Linkedin, GraduationCap, Calendar, Cpu, Code2, Database, Terminal as TerminalIcon, ShieldCheck, Zap, Phone, Instagram, Download, FileText } from 'lucide-react';
 
 // --- SHARED UI SUB-COMPONENTS ---
 const SectionHeader = ({ icon: Icon, title, subtitle }) => (
@@ -33,6 +33,7 @@ export const HelpMenu = () => {
         { name: "projects", desc: "View deployed repositories" },
         { name: "education", desc: "Academic history" },
         { name: "contact", desc: "Establish communication link" },
+        { name: "download", desc: "Download CV/Resume document" },
       ]
     },
     {
@@ -580,6 +581,95 @@ export const Contact = () => {
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+// --- 6. DOWNLOAD CV: DOCUMENT_EXPORT ---
+
+export const DownloadCV = () => {
+  const handleDownload = () => {
+  // Use the 'uc?export=download' endpoint for direct access
+  const fileId = '1k6lCRmw99KVVMW4SGaxx7Ybe9yByQYpr';
+  const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+  
+  const link = document.createElement('a');
+  link.href = downloadUrl;
+  
+  // Note: 'download' attribute only works for same-origin or specific CORS headers.
+  // Google Drive will usually force a download via the URL anyway.
+  link.setAttribute('download', 'Varun_Sharma_CV.pdf');
+  link.setAttribute('target', '_blank'); // Backup: opens in new tab if download is blocked
+  
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+  return (
+    <div className="py-4 font-mono">
+      <SectionHeader 
+        icon={FileText} 
+        title="CV_EXPORT_MODULE" 
+        subtitle="DOCUMENT_VERSION: 2026_LATEST" 
+      />
+
+      <div className="space-y-6">
+        {/* CV Info Card */}
+        <div className="border border-zinc-900 bg-zinc-950/40 p-6 hover:border-blue-500/50 hover:bg-blue-500/[0.03] transition-all group">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="space-y-1">
+                <h3 className="text-white text-lg font-black uppercase tracking-tight group-hover:text-blue-400 transition-colors">
+                  RESUME_DOCUMENT
+                </h3>
+                <p className="text-zinc-500 text-[10px] font-mono">Full professional CV with skills, projects & education</p>
+              </div>
+              <FileText size={32} className="text-zinc-600 group-hover:text-blue-500 transition-colors" />
+            </div>
+
+            <div className="border-t border-zinc-900 pt-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-[10px] mb-4">
+                <div>
+                  <span className="text-zinc-600">FORMAT</span>
+                  <p className="text-white font-bold mt-1">PDF</p>
+                </div>
+                <div>
+                  <span className="text-zinc-600">SIZE</span>
+                  <p className="text-white font-bold mt-1">~500 KB</p>
+                </div>
+                <div>
+                  <span className="text-zinc-600">LANGUAGE</span>
+                  <p className="text-white font-bold mt-1">English</p>
+                </div>
+                <div>
+                  <span className="text-zinc-600">STATUS</span>
+                  <p className="text-green-500 font-bold mt-1">READY</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Download Button */}
+            <button
+              onClick={handleDownload}
+              className="w-full flex items-center justify-center gap-3 px-6 py-3 bg-white text-black text-[11px] font-black uppercase hover:bg-blue-500 hover:text-white transition-all group/btn border border-white hover:border-blue-500 active:scale-95"
+            >
+              <Download size={16} className="group-hover/btn:animate-bounce" />
+              DOWNLOAD_CV
+            </button>
+
+            {/* Alternative Instructions */}
+            <div className="mt-4 p-3 bg-zinc-900/50 border border-zinc-800 rounded text-[10px] text-zinc-400 space-y-1">
+              <p className="text-zinc-500 font-bold">► DOWNLOAD_METHODS:</p>
+              <p>• Click the button above to download instantly</p>
+              <p>• File will be saved as: Varun_Sharma_CV.pdf</p>
+              <p>• Check your downloads folder after completion</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <MetadataFooter status="EXPORTABLE" />
     </div>
   );
 };
